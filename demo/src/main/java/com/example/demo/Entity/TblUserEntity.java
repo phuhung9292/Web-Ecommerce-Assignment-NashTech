@@ -1,9 +1,6 @@
 package com.example.demo.Entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -11,6 +8,7 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Entity
 @Table(name = "tbl_User", schema = "dbo", catalog = "EcommerceNashTech")
 public class TblUserEntity {
