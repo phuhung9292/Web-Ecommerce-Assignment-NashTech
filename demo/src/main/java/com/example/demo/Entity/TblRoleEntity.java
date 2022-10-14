@@ -1,9 +1,7 @@
 package com.example.demo.Entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -12,6 +10,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "tbl_Role", schema = "dbo", catalog = "EcommerceNashTech")
 public class TblRoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +24,7 @@ public class TblRoleEntity {
     @Column(name = "isActive")
     private Boolean isActive;
     @OneToMany(mappedBy = "tblRoleByRoleId")
+    @JsonIgnore
     private Collection<TblUserEntity> tblUsersById;
 
     }
