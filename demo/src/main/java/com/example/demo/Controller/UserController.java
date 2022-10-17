@@ -1,32 +1,72 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Dto.UserDto;
 import com.example.demo.Entity.TblUserEntity;
 import com.example.demo.Service.User.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
-
+    @Autowired
+    private ModelMapper modelMapper;
     private final UserService userService;
 
-    @GetMapping()
-    public ResponseEntity<List<TblUserEntity>>  getAllUser() {
-
-            return ResponseEntity.ok().body(userService.findAll());
-
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>>  getAllUser() throws Exception {
+//            List<TblUserEntity> list = userService.findAll();
+//            if(list.isEmpty()){
+//                throw new Exception("List is empty");
+//            }
+//        for (TblUserEntity l:list
+//             ) {
+//
+//            if(!l.getIsActive()){
+//                System.out.println(l.getFullName());
+//
+//                list.remove(l);
+//            }
+//        }
+            return ResponseEntity.ok().body(userService.findAll().stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList()));
     }
+    @PostMapping("/create")
+    public ResponseEntity<TblUserEntity> createUser(@RequestBody TblUserEntity user){
+        user.setIsActive(true);
+        user.setRoleId(1);
+        return ResponseEntity.ok().body(userService.save(user));
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") int id){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        try {
+            TblUserEntity user= userService.findById(id).get();
+            user.setIsActive(false);
+            userService.save(user);
+            map.put("status", 1);
+            map.put("message", "Record is deleted successfully!");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        } catch (Exception ex) {
+            map.clear();
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable int id){
+        TblUserEntity userEntity = userService.findById(id).get();
+        UserDto userResponse = modelMapper.map(userEntity,UserDto.class);
+        return ResponseEntity.ok().body(userResponse);
+    }
+
 }

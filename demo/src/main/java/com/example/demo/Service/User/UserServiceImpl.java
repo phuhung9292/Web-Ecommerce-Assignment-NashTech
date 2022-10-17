@@ -18,8 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<TblUserEntity> findAll() {
 
-
-        return userRepository.findAll();
+        return userRepository.findAllByIsActive(true);
     }
 
     @Override
@@ -29,7 +28,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public <S extends TblUserEntity> S save(S entity) {
-        entity.setId(1);
+//        entity.setRoleId(1);
         return userRepository.save(entity);
     }
+//    @Override
+//    public void deleteById(Integer integer) {
+//        userRepository.deleteById(integer);
+//    }
 }
