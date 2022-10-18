@@ -3,7 +3,6 @@ package com.example.demo.Controller;
 import com.example.demo.Dto.UserDto;
 import com.example.demo.Entity.TblUserEntity;
 import com.example.demo.Service.User.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,6 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>>  getAllUser() throws Exception {
-//            List<TblUserEntity> list = userService.findAll();
-//            if(list.isEmpty()){
-//                throw new Exception("List is empty");
-//            }
-//        for (TblUserEntity l:list
-//             ) {
-//
-//            if(!l.getIsActive()){
-//                System.out.println(l.getFullName());
-//
-//                list.remove(l);
-//            }
-//        }
             return ResponseEntity.ok().body(userService.findAll().stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList()));
     }
     @PostMapping("/create")
@@ -68,5 +54,12 @@ public class UserController {
         UserDto userResponse = modelMapper.map(userEntity,UserDto.class);
         return ResponseEntity.ok().body(userResponse);
     }
+    @GetMapping("/role/{id}")
+    public ResponseEntity<List<UserDto>> getUserByRole(@PathVariable int id){
+        List<TblUserEntity> listUser = userService.findAllByRoleId(true,id);
+        return ResponseEntity.ok().body(listUser.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList()));
+    }
+
+
 
 }

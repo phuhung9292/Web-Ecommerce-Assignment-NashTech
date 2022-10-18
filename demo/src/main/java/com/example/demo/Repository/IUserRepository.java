@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface IUserRepository extends JpaRepository<TblUserEntity,Integer> {
     List<TblUserEntity> findAllByIsActive(boolean check);
-
+    List<TblUserEntity> findAllByIsActiveAndRoleId(boolean active,int id);
 }

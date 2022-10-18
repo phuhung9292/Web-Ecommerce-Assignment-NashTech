@@ -11,6 +11,5 @@ public interface UserService {
     Optional<TblUserEntity> findById(Integer integer);
 
     <S extends TblUserEntity> S save(S entity);
-//    void deleteById(Integer id);
-
+    List<TblUserEntity> findAllByRoleId(boolean check,int id);
 }

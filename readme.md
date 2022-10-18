@@ -47,4 +47,4 @@ website clothing store makes every choice comfortable without having to go to th
 
 ## Entity Diagram
 
-![Entity Diagram](EntityDiagram.png)
+![Entity Diagram](newERD.png.png)

@@ -2,12 +2,12 @@ package com.example.demo.Service.User;
 
 import com.example.demo.Entity.TblUserEntity;
 import com.example.demo.Repository.IUserRepository;
+import com.example.demo.Service.User.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +31,10 @@ public class UserServiceImpl implements UserService {
 //        entity.setRoleId(1);
         return userRepository.save(entity);
     }
-//    @Override
-//    public void deleteById(Integer integer) {
-//        userRepository.deleteById(integer);
-//    }
+
+    @Override
+    public List<TblUserEntity> findAllByRoleId(boolean check, int id) {
+        return userRepository.findAllByIsActiveAndRoleId(check,id);
+    }
+
 }
