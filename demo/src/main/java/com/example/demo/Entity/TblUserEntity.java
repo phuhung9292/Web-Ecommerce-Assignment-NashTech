@@ -10,6 +10,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 @Entity
+@ToString
+
 @Table(name = "tbl_User", schema = "dbo", catalog = "EcommerceNashTech")
 public class TblUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +24,9 @@ public class TblUserEntity {
     @Basic
     @Column(name = "email")
     private String email;
+    @Basic
+    @Column(name="password")
+    private String password;
     @Basic
     @Column(name = "roleId")
     private Integer roleId;
