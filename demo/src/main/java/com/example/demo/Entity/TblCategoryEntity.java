@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,10 @@ public class TblCategoryEntity {
     @Column(name = "isActive")
     private Boolean isActive;
     @OneToMany(mappedBy = "tblCategoryByCategoryId")
+    @JsonIgnore
     private Collection<TblProductEntity> tblProductsById;
     @OneToMany(mappedBy = "tblCategoryByCategoryId")
+    @JsonIgnore
     private Collection<TblVariationEntity> tblVariationsById;
 
 
