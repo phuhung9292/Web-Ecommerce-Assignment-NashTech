@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,6 +29,12 @@ public class TblProductItemEntity {
     @Basic
     @Column(name = "price")
     private Double price;
+    @Basic
+    @Column(name ="CreateDate")
+    private Date createDate;
+    @Basic
+    @Column(name="updateDate")
+    private Date updateDate;
     @Basic
     @Column(name = "product_image")
     private String productImage;

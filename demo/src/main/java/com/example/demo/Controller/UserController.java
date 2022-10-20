@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<TblUserEntity> createUser(@RequestBody TblUserEntity user){
         user.setIsActive(true);
-        user.setRoleId(1);
+        user.setRoleId(2);
         return ResponseEntity.ok().body(userService.save(user));
     }
     @DeleteMapping("/delete/{id}")
