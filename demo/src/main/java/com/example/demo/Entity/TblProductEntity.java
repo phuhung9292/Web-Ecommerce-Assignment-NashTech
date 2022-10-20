@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class TblProductEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "id",insertable=false, updatable=false)
     private TblCategoryEntity tblCategoryByCategoryId;
     @OneToMany(mappedBy = "tblProductByProductId")
+    @JsonIgnore
     private Collection<TblProductItemEntity> tblProductItemsById;
 
 }

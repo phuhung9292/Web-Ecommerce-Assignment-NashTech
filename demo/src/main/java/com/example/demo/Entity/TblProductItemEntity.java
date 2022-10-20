@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,13 +43,17 @@ public class TblProductItemEntity {
     @Column(name = "isActice")
     private Boolean isActice;
     @OneToMany(mappedBy = "tblProductItemByProductItemId")
+    @JsonIgnore
     private Collection<TblCartItemEntity> tblCartItemsById;
     @OneToMany(mappedBy = "tblProductItemByProductItemId")
+
     private Collection<TblProductConfigurationEntity> tblProductConfigurationsById;
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", referencedColumnName = "id",insertable=false, updatable=false)
     private TblProductEntity tblProductByProductId;
     @OneToMany(mappedBy = "tblProductItemByProductItemId")
+    @JsonIgnore
+
     private Collection<TblOrderHistoryEntity> tblOrderHistoriesById;
 
 
