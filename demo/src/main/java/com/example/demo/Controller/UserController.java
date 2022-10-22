@@ -26,10 +26,9 @@ public class UserController {
             return ResponseEntity.ok().body(userService.findAll().stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList()));
     }
     @PostMapping("/create")
-    public ResponseEntity<TblUserEntity> createUser(@RequestBody TblUserEntity user){
-        user.setIsActive(true);
-        user.setRoleId(2);
-        return ResponseEntity.ok().body(userService.save(user));
+    public ResponseEntity<?> createUser(@RequestBody TblUserEntity user){
+
+        return userService.save(user);
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id){

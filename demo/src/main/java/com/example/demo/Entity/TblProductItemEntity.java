@@ -21,6 +21,7 @@ public class TblProductItemEntity {
     @Id
     @Column(name = "id")
     private int id;
+
     @Basic
     @Column(name = "product_id")
     private Integer productId;
