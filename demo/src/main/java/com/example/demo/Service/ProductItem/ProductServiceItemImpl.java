@@ -40,41 +40,51 @@ public class ProductServiceItemImpl implements ProductItemService{
     }
 
     @Override
-    public ResponseEntity<?> save(TblProductItemEntity entity,int idVariation1, int idVariation2) {
-        Date date = Calendar.getInstance().getTime();
+    public ResponseEntity<?> save(TblProductItemEntity entity, int idVariation1, int idVariation2, int productId) {
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        if(repository.findProducItemByProductIdAndSizeAndColor(productId,idVariation1,idVariation2)==null) {
+           Date date = Calendar.getInstance().getTime();
+           entity.setIsActice(true);
+           entity.setCreateDate(date);
+           entity.setProductId(productId);
+           TblProductItemEntity entity1 = repository.save(entity);
+           TblVariationOptionEntity variation1 = r2.findById(idVariation1).get();
+           TblVariationOptionEntity variation2 = r2.findById(idVariation2).get();
+           TblProductConfigurationEntity e3 = new TblProductConfigurationEntity();
+           TblProductConfigurationEntity e4 = new TblProductConfigurationEntity();
 
-        entity.setIsActice(true);
-        entity.setCreateDate(date);
-        TblProductItemEntity entity1 = repository.save(entity);
-        TblVariationOptionEntity variation1 = r2.findById(idVariation1).get();
-        TblVariationOptionEntity variation2 = r2.findById(idVariation2).get();
-        TblProductConfigurationEntity e3 = new TblProductConfigurationEntity();
-        TblProductConfigurationEntity e4 = new TblProductConfigurationEntity();
+           e3.setTblProductItemByProductItemId(entity1);
+           e3.setTblVariationOptionByVariationOptionId(variation1);
+           e4.setTblProductItemByProductItemId(entity1);
+           e4.setTblVariationOptionByVariationOptionId(variation2);
 
-        e3.setTblProductItemByProductItemId(entity1);
-        e3.setTblVariationOptionByVariationOptionId(variation1);
-        e4.setTblProductItemByProductItemId(entity1);
-        e4.setTblVariationOptionByVariationOptionId(variation2);
+           Collection<TblProductConfigurationEntity> config1 = new ArrayList<>();
+           config1.add(e3);
+           config1.add(e4);
+           e3.setTblProductItemByProductItemId(entity1);
+           e4.setTblProductItemByProductItemId(entity1);
+           int i = idVariation1;
+           for (TblProductConfigurationEntity c : config1) {
 
-        Collection<TblProductConfigurationEntity> config1 = new ArrayList<>();
-        config1.add(e3);
-        config1.add(e4);
-        e3.setTblProductItemByProductItemId(entity1);
-        e4.setTblProductItemByProductItemId(entity1);
-        int i=idVariation1;
-        for (TblProductConfigurationEntity c: config1) {
+               TblProductConfigurationId id = new TblProductConfigurationId(entity1.getId(), i);
+               i = idVariation2;
+               c.setId(id);
+               System.out.println(c.getId());
+           }
 
-            TblProductConfigurationId id = new TblProductConfigurationId(entity1.getId(),i);
-            i=idVariation2;
-            c.setId(id);
-            System.out.println(c.getId());
-        }
-
-        entity1.setTblProductConfigurationsById(config1);
-        productConfigRepository.save(e3);
-        productConfigRepository.save(e4);
+           entity1.setTblProductConfigurationsById(config1);
+           productConfigRepository.save(e3);
+           productConfigRepository.save(e4);
 //        entity1.setId(1);
-        return ResponseEntity.ok().body("success");
+            map.put("status", 1);
+            map.put("message", "update successfully!");
+           return new ResponseEntity<>(map, HttpStatus.OK);
+       }else {
+            map.clear();
+            map.put("status", 0);
+            map.put("message", "this product already Exist");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+       }
     }
     @Override
     public ResponseEntity<?> updateProductItem(TblProductItemEntity entity){

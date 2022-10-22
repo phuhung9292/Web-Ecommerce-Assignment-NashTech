@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductItemService {
     List<TblProductItemEntity> findAll();
 
-    ResponseEntity<?> save(TblProductItemEntity entity,int idVariation1, int idVariation2);
+    ResponseEntity<?> save(TblProductItemEntity entity,int idVariation1, int idVariation2,int productId);
 
     ResponseEntity<?> updateProductItem(TblProductItemEntity entity);
 

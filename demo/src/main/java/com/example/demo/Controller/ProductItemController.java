@@ -28,8 +28,8 @@ public class ProductItemController {
         return service.updateProductItem(entity);
     }
     @PostMapping()
-    public ResponseEntity<?> create(@RequestBody TblProductItemEntity entity,@RequestParam (name="variation1") int idVariation1,@RequestParam(name="variation2") int idVariation2){
-        return service.save(entity,idVariation1,idVariation2);
+    public ResponseEntity<?> create(@RequestBody TblProductItemEntity entity,@RequestParam(name="productId") int productid,@RequestParam (name="variation1") int idVariation1,@RequestParam(name="variation2") int idVariation2){
+        return service.save(entity,idVariation1,idVariation2,productid);
     }
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id){
