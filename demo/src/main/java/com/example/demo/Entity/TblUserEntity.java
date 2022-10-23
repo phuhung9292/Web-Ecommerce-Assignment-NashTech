@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -45,8 +46,10 @@ public class TblUserEntity {
     @JoinColumn(name = "roleId", referencedColumnName = "id",insertable=false, updatable=false)
     private TblRoleEntity tblRoleByRoleId;
     @OneToMany(mappedBy = "tblUserByUserId")
+//    @JsonIgnore
     private Collection<TblShopOrderEntity> tblShopOrdersById;
     @OneToMany(mappedBy = "tblUserByUserid")
+    @JsonIgnore
     private Collection<TblShoppingCartEntity> tblShoppingCartsById;
 
 

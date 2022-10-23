@@ -15,4 +15,5 @@ public class ProductItemDetail {
     private int quantity;
     private String productImage;
     private double price;
+    private boolean isActice;
 }
