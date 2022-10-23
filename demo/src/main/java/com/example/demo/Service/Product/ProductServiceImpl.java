@@ -2,6 +2,7 @@ package com.example.demo.Service.Product;
 
 import com.example.demo.Dto.ProductDto;
 import com.example.demo.Entity.TblProductEntity;
+import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Repository.IProductRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service @AllArgsConstructor
@@ -55,4 +57,6 @@ public class ProductServiceImpl implements ProductService{
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
     }
+
+
 }

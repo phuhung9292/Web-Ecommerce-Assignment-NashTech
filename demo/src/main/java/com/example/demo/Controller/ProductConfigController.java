@@ -1,12 +1,11 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.TblProductConfigurationEntity;
+import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Service.ProductConfig.ProductConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +19,8 @@ public class ProductConfigController {
     public ResponseEntity<List<TblProductConfigurationEntity>> getList(){
         return ResponseEntity.ok().body(service.findAll());
     }
+//    @PostMapping()
+//    public ResponseEntity<String> create(){
+//        return service.save();
+//    }
 }

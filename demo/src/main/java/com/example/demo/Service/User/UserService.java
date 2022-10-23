@@ -1,6 +1,7 @@
 package com.example.demo.Service.User;
 
 import com.example.demo.Entity.TblUserEntity;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,6 @@ public interface UserService {
 
     Optional<TblUserEntity> findById(Integer integer);
 
-    <S extends TblUserEntity> S save(S entity);
+    <S extends TblUserEntity> ResponseEntity<?> save(S entity);
     List<TblUserEntity> findAllByRoleId(boolean check,int id);
 }
