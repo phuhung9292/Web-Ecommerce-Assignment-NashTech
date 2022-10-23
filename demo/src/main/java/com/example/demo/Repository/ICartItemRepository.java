@@ -9,4 +9,6 @@ public interface ICartItemRepository extends JpaRepository<TblCartItemEntity,Int
     List< TblCartItemEntity> findAllByCartid(int cartId);
 
     TblCartItemEntity findTblCartItemEntityByProductItemIdAndCartid(int productId,int cartId);
+
+    void deleteById(int id);
 }

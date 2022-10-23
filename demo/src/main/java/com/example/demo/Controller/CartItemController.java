@@ -24,4 +24,13 @@ public class CartItemController {
     public List<ProductDetailOnCartDto> getCart(@PathVariable int userid){
         return service.findAllByCartid(userid);
     }
+
+    @DeleteMapping("/{productid}/{userid}")
+    public ResponseEntity<?> deleteProductOnCart(@PathVariable int productid,@PathVariable int userid){
+        return service.deleteByProductId(productid,userid);
+    }
+    @PutMapping("/{userid}/{productid}")
+    public ResponseEntity<?> updateCart(@RequestBody TblCartItemEntity entity,@PathVariable int userid,@PathVariable int productid){
+        return service.updateQuantityProductItemOnCart(entity,productid,userid);
+    }
 }

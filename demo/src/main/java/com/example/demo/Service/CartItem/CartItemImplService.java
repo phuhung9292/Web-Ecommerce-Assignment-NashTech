@@ -1,9 +1,7 @@
 package com.example.demo.Service.CartItem;
 
 import com.example.demo.Dto.ProductDetailOnCartDto;
-import com.example.demo.Dto.ProductItemDetail;
 import com.example.demo.Entity.TblCartItemEntity;
-import com.example.demo.Entity.TblProductConfigurationEntity;
 import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Repository.ICartItemRepository;
 import com.example.demo.Repository.IProductItemRepository;
@@ -14,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,7 +83,43 @@ public class CartItemImplService implements CartItemService{
             p.setPrice(item.getPrice()*p.getQuantity());
             p.setActive(item.getIsActice());
         }
-
         return listCart;
     }
+
+    @Override
+    public ResponseEntity<?> deleteByProductId(int productid,int userid){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userid).getId();
+
+        try{
+            TblCartItemEntity cartItem =repository.findTblCartItemEntityByProductItemIdAndCartid(productid,cartId);
+            repository.deleteById(cartItem.getId());
+            map.put("status",1);
+            map.put("message","Delete Success");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }catch (Exception ex){
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ResponseEntity<?> updateQuantityProductItemOnCart(TblCartItemEntity entity, int productid, int userid){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userid).getId();
+        try{
+            TblCartItemEntity cartItem =repository.findTblCartItemEntityByProductItemIdAndCartid(productid,cartId);
+            cartItem.setQuantity(entity.getQuantity());
+            repository.save(cartItem);
+            map.put("status",1);
+            map.put("message","Update Success");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }catch (Exception ex){
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

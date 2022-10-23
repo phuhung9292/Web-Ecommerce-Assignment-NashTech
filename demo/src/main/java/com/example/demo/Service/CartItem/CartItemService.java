@@ -10,4 +10,8 @@ public interface CartItemService {
     ResponseEntity<?> save(TblCartItemEntity entity, int iduser, int productId, int variation1, int variation2);
 
     List<ProductDetailOnCartDto> findAllByCartid(int cartId);
+
+    ResponseEntity<?> deleteByProductId(int productid,int userid);
+
+    ResponseEntity<?> updateQuantityProductItemOnCart(TblCartItemEntity entity, int productid, int userid);
 }
