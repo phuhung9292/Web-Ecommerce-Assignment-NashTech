@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -22,7 +24,7 @@ public class TblShoppingCartEntity {
     @Basic
     @Column(name = "userid")
     private Integer userid;
-    @OneToMany(mappedBy = "tblShoppingCartByCartid")
+    @OneToMany(mappedBy = "tblShoppingCartByCartid",cascade = {CascadeType.ALL})
     @JsonIgnore
     private Collection<TblCartItemEntity> tblCartItemsById;
     @ManyToOne(optional = false)
