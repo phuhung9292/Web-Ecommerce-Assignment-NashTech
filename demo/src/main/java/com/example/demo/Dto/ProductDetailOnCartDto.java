@@ -1,19 +1,17 @@
 package com.example.demo.Dto;
 
-import com.example.demo.Entity.TblVariationOptionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductItemDetail {
+public class ProductDetailOnCartDto {
     private int id;
+    private int productItemId;
+    private String image;
     private int quantity;
-    private String productImage;
     private double price;
-    private boolean isActice;
+    private boolean isActive;
 }

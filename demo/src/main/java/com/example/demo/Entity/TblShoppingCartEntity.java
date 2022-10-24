@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class TblShoppingCartEntity {
     @Column(name = "userid")
     private Integer userid;
     @OneToMany(mappedBy = "tblShoppingCartByCartid")
+    @JsonIgnore
     private Collection<TblCartItemEntity> tblCartItemsById;
     @ManyToOne(optional = false)
     @JoinColumn(name = "userid", referencedColumnName = "id",insertable=false, updatable=false)
