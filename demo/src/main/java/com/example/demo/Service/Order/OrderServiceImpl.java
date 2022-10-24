@@ -3,7 +3,6 @@ package com.example.demo.Service.Order;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -78,6 +77,10 @@ public class OrderServiceImpl implements OrderService{
         }
     }
 
+    @Override
+    public List<TblShopOrderEntity> listAllOrderFromCustomer(){
+        return orderRepository.findAll();
+    }
 //    public <S extends TblOrderHistoryEntity> S save(S entity) {
 //        return historyRepository.save(entity);
 //    }
