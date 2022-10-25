@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class TblOrderStatusEntity {
     @Column(name = "status")
     private String status;
     @OneToMany(mappedBy = "tblOrderStatusByStatus")
+    @JsonIgnore
     private Collection<TblShopOrderEntity> tblShopOrdersById;
 
 

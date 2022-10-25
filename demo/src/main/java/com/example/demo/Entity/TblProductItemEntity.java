@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -43,7 +45,7 @@ public class TblProductItemEntity {
     @Basic
     @Column(name = "isActice")
     private Boolean isActice;
-    @OneToMany(mappedBy = "tblProductItemByProductItemId")
+    @OneToMany(mappedBy = "tblProductItemByProductItemId",cascade = {CascadeType.ALL})
     @JsonIgnore
     private Collection<TblCartItemEntity> tblCartItemsById;
     @OneToMany(mappedBy = "tblProductItemByProductItemId")

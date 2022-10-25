@@ -46,7 +46,7 @@ public class TblUserEntity {
     @JoinColumn(name = "roleId", referencedColumnName = "id",insertable=false, updatable=false)
     private TblRoleEntity tblRoleByRoleId;
     @OneToMany(mappedBy = "tblUserByUserId")
-//    @JsonIgnore
+    @JsonIgnore
     private Collection<TblShopOrderEntity> tblShopOrdersById;
     @OneToMany(mappedBy = "tblUserByUserid")
     @JsonIgnore

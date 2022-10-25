@@ -1,12 +1,13 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Collection;
 @Getter
 @Setter
@@ -35,6 +36,7 @@ public class TblShopOrderEntity {
     @Column(name = "status")
     private Integer status;
     @OneToMany(mappedBy = "tblShopOrderByOrderId")
+    @JsonIgnore
     private Collection<TblOrderHistoryEntity> tblOrderHistoriesById;
     @ManyToOne(optional = false)
     @JoinColumn(name = "userId", referencedColumnName = "id",insertable=false, updatable=false)
