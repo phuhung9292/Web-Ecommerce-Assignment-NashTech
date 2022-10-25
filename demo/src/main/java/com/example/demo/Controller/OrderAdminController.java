@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.TblShopOrderEntity;
 import com.example.demo.Service.Order.OrderService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 public class OrderAdminController {
     private OrderService orderService;
     @GetMapping()
-    public List<TblShopOrderEntity> getAllOrder(){
+    public List<OrderDto> getAllOrder(){
         return orderService.listAllOrderFromCustomer();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.Service.Order;
 
+import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service @AllArgsConstructor
@@ -18,12 +20,15 @@ public class OrderServiceImpl implements OrderService{
     private IUserRepository userRepository;
     private ICartItemRepository cartItemRepository;
     private IProductItemRepository productItemRepository;
+    private  IOrderStatusRepository orderStatusRepository;
 
     @Override
     public ResponseEntity<?> OrderProduct(int userId){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        Date date = Calendar.getInstance().getTime();
+        Date date = new Date();
         TblUserEntity user = userRepository.findById(userId).get();
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
 
         int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(user.getId()).getId();
 
@@ -78,8 +83,36 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<TblShopOrderEntity> listAllOrderFromCustomer(){
-        return orderRepository.findAll();
+    public List<OrderDto> listAllOrderFromCustomer(){
+        List<TblShopOrderEntity> listOrders=orderRepository.findAllByOrderDateDesc();
+        List<OrderDto> ordersDto = new ArrayList<>();
+        for (TblShopOrderEntity o: listOrders) {
+            TblOrderStatusEntity status = orderStatusRepository.findById(o.getStatus()).get();
+            OrderDto order= new OrderDto();
+            order.setId(o.getId());
+            order.setOrderDate(o.getOrderDate());
+            order.setTotal(o.getTotal());
+            order.setStatus(status.getStatus());
+            order.setUserName(userRepository.findById(o.getUserId()).get().getFullName());
+            ordersDto.add(order);
+        }
+        return ordersDto;
+    }
+    @Override
+    public List<OrderDto> listAllOrderOfCustomer(int userId){
+        List<TblShopOrderEntity> listOrders=orderRepository.findAllByUserId(userId);
+        List<OrderDto> ordersDto = new ArrayList<>();
+        for (TblShopOrderEntity o: listOrders) {
+            TblOrderStatusEntity status = orderStatusRepository.findById(o.getStatus()).get();
+            OrderDto order= new OrderDto();
+            order.setId(o.getId());
+            order.setOrderDate(o.getOrderDate());
+            order.setTotal(o.getTotal());
+            order.setStatus(status.getStatus());
+            order.setUserName(userRepository.findById(o.getUserId()).get().getFullName());
+            ordersDto.add(order);
+        }
+        return ordersDto;
     }
 //    public <S extends TblOrderHistoryEntity> S save(S entity) {
 //        return historyRepository.save(entity);
