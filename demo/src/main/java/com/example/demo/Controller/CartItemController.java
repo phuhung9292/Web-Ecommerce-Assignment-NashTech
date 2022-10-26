@@ -16,21 +16,21 @@ import java.util.List;
 @AllArgsConstructor
 public class CartItemController {
     private CartItemService service;
-    @PostMapping("/addtocart/{userid}/{productid}/{size}/{color}")
-    public ResponseEntity<?> AddToCart(@RequestBody TblCartItemEntity entity, @PathVariable(name = "productid") int productId,@PathVariable(name = "size") int sizeId,@PathVariable (name = "color") int colorId,@PathVariable(name = "userid") int userId){
-        return service.save(entity,userId,productId,sizeId,colorId);
+    @PostMapping("/{productid}/{size}/{color}")
+    public ResponseEntity<?> AddToCart(@RequestBody TblCartItemEntity entity, @PathVariable(name = "productid") int productId,@PathVariable(name = "size") int sizeId,@PathVariable (name = "color") int colorId){
+        return service.save(entity,productId,sizeId,colorId);
     }
-    @GetMapping("{userid}")
-    public List<ProductDetailOnCartDto> getCart(@PathVariable int userid){
-        return service.findAllByCartid(userid);
+    @GetMapping()
+    public List<ProductDetailOnCartDto> getCart(){
+        return service.findAllByCartid();
     }
 
-    @DeleteMapping("/{productid}/{userid}")
-    public ResponseEntity<?> deleteProductOnCart(@PathVariable int productid,@PathVariable int userid){
-        return service.deleteByProductId(productid,userid);
+    @DeleteMapping("/{productid}")
+    public ResponseEntity<?> deleteProductOnCart(@PathVariable int productid){
+        return service.deleteByProductId(productid);
     }
-    @PutMapping("/{userid}/{productid}")
-    public ResponseEntity<?> updateCart(@RequestBody TblCartItemEntity entity,@PathVariable int userid,@PathVariable int productid){
-        return service.updateQuantityProductItemOnCart(entity,productid,userid);
+    @PutMapping("/{productid}")
+    public ResponseEntity<?> updateCart(@RequestBody TblCartItemEntity entity,@PathVariable int productid){
+        return service.updateQuantityProductItemOnCart(entity,productid);
     }
 }

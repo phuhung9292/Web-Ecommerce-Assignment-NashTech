@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface OrderService {
 
-    ResponseEntity<?> OrderProduct(int userId);
+    ResponseEntity<?> OrderProduct();
 
     List<OrderDto> listAllOrderFromCustomer();
 
-    List<OrderDto> listAllOrderOfCustomer(int userId);
+    List<OrderDto> listAllOrderOfCustomer();
 }

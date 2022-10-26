@@ -3,9 +3,11 @@ package com.example.demo.Service.Order;
 import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
+import com.example.demo.security.userPrincal.UserPrinciple;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,10 +25,11 @@ public class OrderServiceImpl implements OrderService{
     private  IOrderStatusRepository orderStatusRepository;
 
     @Override
-    public ResponseEntity<?> OrderProduct(int userId){
+    public ResponseEntity<?> OrderProduct(){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Date date = new Date();
-        TblUserEntity user = userRepository.findById(userId).get();
+        TblUserEntity user = userRepository.findById(userPrinciple.getId()).get();
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
@@ -42,7 +45,7 @@ public class OrderServiceImpl implements OrderService{
             order.setOrderDate(date);
             order.setShippingAddress(user.getAddress());
             order.setStatus(2);
-            order.setUserId(userId);
+            order.setUserId(userPrinciple.getId());
             double total=0;
             for (TblCartItemEntity item:listCart) {
                 TblProductItemEntity productItem = productItemRepository.findById(item.getProductItemId()).get();
@@ -99,8 +102,10 @@ public class OrderServiceImpl implements OrderService{
         return ordersDto;
     }
     @Override
-    public List<OrderDto> listAllOrderOfCustomer(int userId){
-        List<TblShopOrderEntity> listOrders=orderRepository.findAllByUserId(userId);
+    public List<OrderDto> listAllOrderOfCustomer(){
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        List<TblShopOrderEntity> listOrders=orderRepository.findAllByUserId(userPrinciple.getId());
         List<OrderDto> ordersDto = new ArrayList<>();
         for (TblShopOrderEntity o: listOrders) {
             TblOrderStatusEntity status = orderStatusRepository.findById(o.getStatus()).get();
