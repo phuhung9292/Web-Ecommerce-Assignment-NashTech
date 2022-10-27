@@ -19,12 +19,12 @@ public class OrderUserController {
     @Autowired
     private final OrderService orderService;
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<?> userOrder(@PathVariable int userId){
-        return orderService.OrderProduct(userId);
+    @PostMapping()
+    public ResponseEntity<?> userOrder(){
+        return orderService.OrderProduct();
     }
-    @GetMapping("/{id}")
-    public List<OrderDto> getAllOrderOfUserById(@PathVariable int id){
-        return orderService.listAllOrderOfCustomer(id);
+    @GetMapping("")
+    public List<OrderDto> getAllOrderOfUserById(){
+        return orderService.listAllOrderOfCustomer();
     }
 }

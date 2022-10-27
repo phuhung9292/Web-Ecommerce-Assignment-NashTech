@@ -1,5 +1,6 @@
 package com.example.demo.Service.User;
 
+import com.example.demo.Dto.SignInForm;
 import com.example.demo.Entity.TblUserEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -13,4 +14,6 @@ public interface UserService {
 
     <S extends TblUserEntity> ResponseEntity<?> save(S entity);
     List<TblUserEntity> findAllByRoleId(boolean check,int id);
+
+    ResponseEntity<?> login(SignInForm signInForm);
 }

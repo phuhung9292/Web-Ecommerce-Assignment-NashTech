@@ -6,10 +6,13 @@ import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Repository.ICartItemRepository;
 import com.example.demo.Repository.IProductItemRepository;
 import com.example.demo.Repository.IShoppingCartRepository;
+import com.example.demo.Repository.IUserRepository;
+import com.example.demo.security.userPrincal.UserPrinciple;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -23,13 +26,17 @@ public class CartItemImplService implements CartItemService{
     private IShoppingCartRepository cartShopingrepo;
 
     private IProductItemRepository Itemrepository;
+    private IUserRepository userRepository;
     private ModelMapper modelMapper;
 
 
     @Override
-    public ResponseEntity<?> save(TblCartItemEntity entity, int iduser, int productId, int variation1, int variation2) {
+    public ResponseEntity<?> save(TblCartItemEntity entity, int productId, int variation1, int variation2) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(iduser).getId();
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userPrinciple.getId()).getId();
         List<TblCartItemEntity> cart = repository.findAllByCartid(cartId);
         TblProductItemEntity productItem = Itemrepository.findProducItemByProductIdAndSizeAndColor(productId,variation1,variation2);
         if(entity.getQuantity() > productItem.getQuantity()){
@@ -74,8 +81,10 @@ public class CartItemImplService implements CartItemService{
     }
 
     @Override
-    public List<ProductDetailOnCartDto> findAllByCartid(int userId) {
-        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userId).getId();
+    public List<ProductDetailOnCartDto> findAllByCartid() {
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userPrinciple.getId()).getId();
         List<ProductDetailOnCartDto> listCart = repository.findAllByCartid(cartId).stream().map(product ->(modelMapper.map(product,ProductDetailOnCartDto.class))).collect(Collectors.toList());
         for (ProductDetailOnCartDto p:listCart) {
             TblProductItemEntity item = Itemrepository.findTblProductItemEntityById(p.getProductItemId());
@@ -87,9 +96,11 @@ public class CartItemImplService implements CartItemService{
     }
 
     @Override
-    public ResponseEntity<?> deleteByProductId(int productid,int userid){
+    public ResponseEntity<?> deleteByProductId(int productid){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userid).getId();
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userPrinciple.getId()).getId();
 
         try{
             TblCartItemEntity cartItem =repository.findTblCartItemEntityByProductItemIdAndCartid(productid,cartId);
@@ -105,9 +116,11 @@ public class CartItemImplService implements CartItemService{
     }
 
     @Override
-    public ResponseEntity<?> updateQuantityProductItemOnCart(TblCartItemEntity entity, int productid, int userid){
+    public ResponseEntity<?> updateQuantityProductItemOnCart(TblCartItemEntity entity, int productid){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userid).getId();
+        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userPrinciple.getId()).getId();
         try{
             TblCartItemEntity cartItem =repository.findTblCartItemEntityByProductItemIdAndCartid(productid,cartId);
             cartItem.setQuantity(entity.getQuantity());
