@@ -41,6 +41,7 @@ public class TblUserEntity {
     @Column(name = "isActive")
     private Boolean isActive;
     @OneToMany(mappedBy = "tblUserByUserid")
+    @JsonIgnore
     private Collection<TblRatingEntity> tblRatingsById;
     @ManyToOne(optional = false)
     @JoinColumn(name = "roleId", referencedColumnName = "id",insertable=false, updatable=false)

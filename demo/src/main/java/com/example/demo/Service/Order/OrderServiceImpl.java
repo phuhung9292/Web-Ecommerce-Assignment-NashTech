@@ -3,13 +3,17 @@ package com.example.demo.Service.Order;
 import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
+import com.example.demo.security.jwt.JwtProvider;
 import com.example.demo.security.userPrincal.UserPrinciple;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,9 +31,21 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public ResponseEntity<?> OrderProduct(){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserPrinciple userPrinciple=new UserPrinciple();
+
+        try {
+            userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+//        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+
+        int id = userPrinciple.getId();
+
         Date date = new Date();
-        TblUserEntity user = userRepository.findById(userPrinciple.getId()).get();
+        TblUserEntity user = userRepository.findById(id).get();
 //        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
@@ -45,7 +61,7 @@ public class OrderServiceImpl implements OrderService{
             order.setOrderDate(date);
             order.setShippingAddress(user.getAddress());
             order.setStatus(2);
-            order.setUserId(userPrinciple.getId());
+            order.setUserId(id);
             double total=0;
             for (TblCartItemEntity item:listCart) {
                 TblProductItemEntity productItem = productItemRepository.findById(item.getProductItemId()).get();

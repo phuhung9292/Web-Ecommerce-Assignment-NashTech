@@ -10,7 +10,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Data
+//@Data
 @Table(name = "tbl_Role", schema = "dbo", catalog = "EcommerceNashTech")
 public class TblRoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
