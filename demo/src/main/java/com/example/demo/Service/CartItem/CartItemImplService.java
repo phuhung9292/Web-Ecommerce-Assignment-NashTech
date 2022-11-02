@@ -31,14 +31,14 @@ public class CartItemImplService implements CartItemService{
 
 
     @Override
-    public ResponseEntity<?> save(TblCartItemEntity entity, int productId, int variation1, int variation2) {
+    public ResponseEntity<?> save(TblCartItemEntity entity, int productItemId) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         UserPrinciple userPrinciple= (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 
         int cartId= cartShopingrepo.findTblShoppingCartEntityByUserid(userPrinciple.getId()).getId();
         List<TblCartItemEntity> cart = repository.findAllByCartid(cartId);
-        TblProductItemEntity productItem = Itemrepository.findProducItemByProductIdAndSizeAndColor(productId,variation1,variation2);
+        TblProductItemEntity productItem = Itemrepository.findById(productItemId).get();
         if(entity.getQuantity() > productItem.getQuantity()){
             map.put("status",0);
             map.put("message","Not enough product");

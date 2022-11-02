@@ -16,9 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CartItemController {
     private CartItemService service;
-    @PostMapping("/{productid}/{size}/{color}")
-    public ResponseEntity<?> AddToCart(@RequestBody TblCartItemEntity entity, @PathVariable(name = "productid") int productId,@PathVariable(name = "size") int sizeId,@PathVariable (name = "color") int colorId){
-        return service.save(entity,productId,sizeId,colorId);
+    @PostMapping("/{productitemid}")
+    public ResponseEntity<?> AddToCart(@RequestBody TblCartItemEntity entity, @PathVariable(name = "productitemid") int productItemId){
+        return service.save(entity,productItemId);
     }
     @GetMapping()
     public List<ProductDetailOnCartDto> getCart(){

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface CartItemService {
-    ResponseEntity<?> save(TblCartItemEntity entity, int productId, int variation1, int variation2);
+    ResponseEntity<?> save(TblCartItemEntity entity, int productItemId);
 
     List<ProductDetailOnCartDto> findAllByCartid();
 

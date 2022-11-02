@@ -17,6 +17,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.*;
 
@@ -47,8 +51,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity httpSecurity)throws Exception{
+//        CorsConfiguration config = new CorsConfiguration();
+//        List<String> newlist = new ArrayList<>();
+//        config.setAllowCredentials(true);
+//        List<String> newList2 = new ArrayList<>();
+//        newList2.add("Authorization");
+//        newList2.add("Cache-Control");
+//        newList2.add("Content-Type");
+//
+//
+//        config.setAllowedHeaders(newList2);
+//        config.addAllowedMethod("*");
+//        newlist.add("http://localhost:3000");
+//        config.setAllowedOrigins(newlist);
+
         httpSecurity.cors().and().csrf().disable()
                 .authorizeRequests().antMatchers("/api/v1/user/signin").permitAll()
+//                .antMatchers(GET,"/api/v1/productItem").permitAll()
                 .antMatchers("/api/v1/cart/**").hasAuthority("Customer")
                 .antMatchers(POST,"/api/v1/category/createcategory").hasAuthority("Admin")
                 .antMatchers(DELETE,"/api/v1/category/createcategory/**").hasAuthority("Admin")
@@ -63,10 +82,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST,"/api/v1/variationoption/**").hasAuthority("Admin")
                 .antMatchers("/api/v1/variation").hasAuthority("Admin")
                 .antMatchers(POST,"/api/v1/productitem").hasAuthority("Admin")
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
 //        httpSecurity.csrf().disable();
 //        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        httpSecurity.authorizeRequests().antMatchers("/api/v1/signin/**").permitAll();
