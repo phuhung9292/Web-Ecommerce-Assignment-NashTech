@@ -4,6 +4,8 @@ import com.example.demo.Entity.TblRoleEntity;
 import com.example.demo.Entity.TblUserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 
 public class UserPrinciple implements UserDetails {
     private int id;

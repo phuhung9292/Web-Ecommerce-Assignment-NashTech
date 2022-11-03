@@ -51,21 +51,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity httpSecurity)throws Exception{
-//        CorsConfiguration config = new CorsConfiguration();
-//        List<String> newlist = new ArrayList<>();
-//        config.setAllowCredentials(true);
-//        List<String> newList2 = new ArrayList<>();
-//        newList2.add("Authorization");
-//        newList2.add("Cache-Control");
-//        newList2.add("Content-Type");
-//
-//
-//        config.setAllowedHeaders(newList2);
-//        config.addAllowedMethod("*");
-//        newlist.add("http://localhost:3000");
-//        config.setAllowedOrigins(newlist);
+        CorsConfiguration config = new CorsConfiguration();
+        List<String> newlist = new ArrayList<>();
+        config.setAllowCredentials(true);
+        List<String> newList2 = new ArrayList<>();
+        newList2.add("Authorization");
+        newList2.add("Cache-Control");
+        newList2.add("Content-Type");
 
-        httpSecurity.cors().and().csrf().disable()
+
+        config.setAllowedHeaders(newList2);
+        config.addAllowedMethod("*");
+        newlist.add("http://localhost:3000");
+        config.setAllowedOrigins(newlist);
+//        CorsConfiguration config = new CorsConfiguration();
+//
+//        config.setAllowCredentials(true);
+//        config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "token"));
+//        config.addAllowedMethod("*");
+//        config.setAllowedOrigins(List.of("http://localhost:3000"));
+
+            httpSecurity.cors().and().csrf().disable().cors().configurationSource(request -> config).and()
                 .authorizeRequests().antMatchers("/api/v1/user/signin").permitAll()
 //                .antMatchers(GET,"/api/v1/productItem").permitAll()
                 .antMatchers("/api/v1/cart/**").hasAuthority("Customer")
