@@ -2,6 +2,7 @@ package com.example.demo.Service.Category;
 
 import com.example.demo.Entity.TblCategoryEntity;
 import org.springframework.data.domain.Example;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,4 +16,5 @@ public interface CategoryService {
 
     TblCategoryEntity findById(int id);
 
+    ResponseEntity<?> updateCateByProductId(int id, TblCategoryEntity entity);
 }

@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/category")
 @RequiredArgsConstructor
@@ -55,5 +55,9 @@ public class CategoryController {
         TblCategoryEntity category = categoryService.findById(id);
         CategoryDto categoryResponse = modelMapper.map(category,CategoryDto.class);
         return ResponseEntity.ok().body(categoryResponse);
+    }
+    @PostMapping("/update/{id}")
+    public ResponseEntity<?> updateCate(@PathVariable int id,@RequestBody TblCategoryEntity entity){
+        return categoryService.updateCateByProductId(id,entity);
     }
 }

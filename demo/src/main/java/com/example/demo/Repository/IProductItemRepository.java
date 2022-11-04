@@ -11,4 +11,7 @@ public interface IProductItemRepository extends JpaRepository<TblProductItemEnti
    TblProductItemEntity findTblProductItemEntityById(Integer id);
    @Query(value = "SELECT * from tbl_Product_Item p where p.id = (Select proConfig.product_item_id from tbl_Product_Item proItem join tbl_Product pro on proItem.product_id=pro.id join tbl_Product_Configuration proConfig on proItem.id=proConfig.product_item_id where pro.id= ?1 AND variation_option_id in (?2,?3) group by product_item_id Having count(variation_option_id)=2)",nativeQuery = true)
    TblProductItemEntity findProducItemByProductIdAndSizeAndColor(Integer productId,Integer variation1,Integer variation2);
+
+   @Query(value = "select p.* from tbl_order_history o join tbl_Product_Item p on p.id = o.productItemId where o.orderId=?1", nativeQuery = true)
+   List<TblProductItemEntity> findOrderDetail(Integer orderId);
 }

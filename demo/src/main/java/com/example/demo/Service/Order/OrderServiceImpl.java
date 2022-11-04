@@ -3,17 +3,13 @@ package com.example.demo.Service.Order;
 import com.example.demo.Dto.OrderDto;
 import com.example.demo.Entity.*;
 import com.example.demo.Repository.*;
-import com.example.demo.security.jwt.JwtProvider;
 import com.example.demo.security.userPrincal.UserPrinciple;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,6 +18,7 @@ public class OrderServiceImpl implements OrderService{
     private IOrderHistoryRepository historyRepository;
     private IShopOrderRepository orderRepository;
     private IShoppingCartRepository cartShopingrepo;
+
 
     private IUserRepository userRepository;
     private ICartItemRepository cartItemRepository;
@@ -134,6 +131,20 @@ public class OrderServiceImpl implements OrderService{
             ordersDto.add(order);
         }
         return ordersDto;
+    }
+    @Override
+    public List<TblProductItemEntity> getOrderDetail(int orderId){
+        List<TblProductItemEntity> listProductOrder= productItemRepository.findOrderDetail(orderId);
+        for (TblProductItemEntity product: listProductOrder) {
+            int quantity =historyRepository.findTblOrderHistoryEntitiesByOrderIdAndProductItemId(orderId,product.getId()).getQuantity();
+            product.setQuantity(quantity);
+        }
+        return  listProductOrder;
+
+    }
+    @Override
+    public TblShopOrderEntity getStatusD(int id){
+        return orderRepository.findById(id).get();
     }
 //    public <S extends TblOrderHistoryEntity> S save(S entity) {
 //        return historyRepository.save(entity);
