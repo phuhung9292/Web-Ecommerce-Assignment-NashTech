@@ -9,4 +9,5 @@ public class ProductDto {
     private String description;
     private String productImage;
     private String categoryTypeCategory;
+    private boolean isActive;
 }
