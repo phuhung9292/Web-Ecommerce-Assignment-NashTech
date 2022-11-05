@@ -11,4 +11,6 @@ public interface VariationService {
     Optional<TblVariationEntity> findById(Integer integer);
 
     List<TblVariationEntity> findAll();
+
+    List<TblVariationEntity> findByCateId(int id);
 }

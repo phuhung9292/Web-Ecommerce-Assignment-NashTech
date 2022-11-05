@@ -58,4 +58,8 @@ public class VariationController {
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/cate/{id}")
+    public List<TblVariationEntity> findByCateId(@PathVariable int id){
+        return variationRepository.findAllByCategoryId(id);
+    }
 }

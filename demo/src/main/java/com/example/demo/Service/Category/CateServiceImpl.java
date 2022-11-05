@@ -1,7 +1,9 @@
 package com.example.demo.Service.Category;
 
 import com.example.demo.Entity.TblCategoryEntity;
+import com.example.demo.Entity.TblVariationEntity;
 import com.example.demo.Repository.ICategoryRepository;
+import com.example.demo.Service.Variation.VariationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.Map;
 @Service @AllArgsConstructor @Transactional
 public class CateServiceImpl implements CategoryService{
     private ICategoryRepository categoryRepository;
+    private VariationService variation;
 
     @Override
     public List<TblCategoryEntity> findAll() {
@@ -22,8 +25,19 @@ public class CateServiceImpl implements CategoryService{
     }
 
     @Override
-    public <S extends TblCategoryEntity> S save(S entity) {
-        return categoryRepository.save(entity);
+    public  TblCategoryEntity  save(TblCategoryEntity entity)
+    {
+        entity.setIsActive(true);
+        TblCategoryEntity category=categoryRepository.save(entity);
+        TblVariationEntity v1 = new TblVariationEntity();
+        TblVariationEntity v2 = new TblVariationEntity();
+        v1.setCategoryId(category.getId());
+        v2.setCategoryId(category.getId());
+        v1.setName("size");
+        v2.setName("color");
+        variation.save(v1);
+        variation.save(v2);
+        return category;
     }
 
     @Override

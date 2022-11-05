@@ -10,4 +10,6 @@ public interface VariationOptionService {
     List<TblVariationOptionEntity> findAll();
 
     TblVariationOptionEntity findById(int id);
+
+    List<TblVariationOptionEntity> findAllByVariationId(int id);
 }

@@ -26,4 +26,7 @@ public class VariationServiceImpl implements VariationService {
     public List<TblVariationEntity> findAll() {
         return variationRepository.findAll();
     }
+
+    @Override
+    public List<TblVariationEntity> findByCateId(int id) {return  variationRepository.findAllByCategoryId(id);}
 }

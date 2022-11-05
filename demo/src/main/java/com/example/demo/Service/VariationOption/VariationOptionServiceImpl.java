@@ -26,4 +26,7 @@ public class VariationOptionServiceImpl implements VariationOptionService{
         return variation_optionRepository.findById(id).get();
     }
 
+    @Override
+    public List<TblVariationOptionEntity> findAllByVariationId(int id){return variation_optionRepository.findAllByVariationId(id);}
+
 }
