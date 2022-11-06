@@ -4,6 +4,7 @@ import com.example.demo.Dto.CategoryDto;
 import com.example.demo.Entity.TblCategoryEntity;
 import com.example.demo.Entity.TblUserEntity;
 import com.example.demo.Service.Category.CategoryService;
+import com.example.demo.Service.Variation.VariationService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,8 @@ public class CategoryController {
     @PostMapping("/createcategory")
     public ResponseEntity<CategoryDto> addCategory(@RequestBody TblCategoryEntity tblCategory){
         tblCategory.setIsActive(true);
+
+
         return ResponseEntity.ok().body(modelMapper.map(categoryService.save(tblCategory),CategoryDto.class));
     }
     @DeleteMapping("/delete/{id}")

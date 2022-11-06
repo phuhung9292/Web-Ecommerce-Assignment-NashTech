@@ -37,5 +37,9 @@ public class VariationOptionController {
     public ResponseEntity<VariationOptionDto> getById(@PathVariable int id){
         return  ResponseEntity.ok().body(modelMapper.map(repository.findById(id),VariationOptionDto.class));
     }
+    @GetMapping("/variation/{id}")
+    public List<TblVariationOptionEntity> getByVariationid(@PathVariable int id){
+        return repository.findAllByVariationId(id);
+    }
 
     }
