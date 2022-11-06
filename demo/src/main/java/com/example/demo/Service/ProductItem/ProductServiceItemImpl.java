@@ -111,8 +111,8 @@ public class ProductServiceItemImpl implements ProductItemService{
     }
 
     @Override
-    public ResponseEntity<?> findById(Integer integer) {
-        return null;
+    public TblProductItemEntity findById(Integer integer) {
+        return repository.findById(integer).get();
     }
 
 
@@ -173,5 +173,12 @@ public class ProductServiceItemImpl implements ProductItemService{
     public ProductItemDetail findByProductIdAndSizeIdAndColor(Integer productId, Integer varation1, Integer variation2) {
         return modelMapper.map(repository.findProducItemByProductIdAndSizeAndColor(productId,varation1,variation2),ProductItemDetail.class);
     }
+
+    @Override
+    public List<TblProductItemEntity> adminGetProductItemById(int id){
+        return repository.findAllByProductId(id);
+    }
+
+
 
 }

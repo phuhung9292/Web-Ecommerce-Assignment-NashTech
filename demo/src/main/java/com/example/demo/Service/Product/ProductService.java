@@ -16,4 +16,6 @@ public interface ProductService {
     ResponseEntity<List<ProductDto>> findProductsByCategory(int id);
 
     ResponseEntity<?> updateProduct(TblProductEntity entity);
+
+    TblProductEntity getById(int id);
 }

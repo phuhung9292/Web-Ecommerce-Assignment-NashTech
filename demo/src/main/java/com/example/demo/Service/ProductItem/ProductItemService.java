@@ -13,9 +13,11 @@ public interface ProductItemService {
 
     ResponseEntity<?> updateProductItem(TblProductItemEntity entity);
 
-    ResponseEntity<?> findById(Integer integer);
+    TblProductItemEntity findById(Integer integer);
 
     ResponseEntity<?> findByProductId(Integer integer);
 
     ProductItemDetail findByProductIdAndSizeIdAndColor(Integer productId, Integer varation1, Integer variation2);
+
+    List<TblProductItemEntity> adminGetProductItemById(int id);
 }

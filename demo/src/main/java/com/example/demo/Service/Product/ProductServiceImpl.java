@@ -2,7 +2,6 @@ package com.example.demo.Service.Product;
 
 import com.example.demo.Dto.ProductDto;
 import com.example.demo.Entity.TblProductEntity;
-import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Repository.IProductRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service @AllArgsConstructor
@@ -44,6 +42,7 @@ public class ProductServiceImpl implements ProductService{
     public ResponseEntity<?> updateProduct(TblProductEntity entity){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         try {
+            entity.setIsActive(true);
             TblProductEntity product= repository.save(entity);
             map.put("status", 1);
             map.put("message", "update successfully!");
@@ -56,6 +55,11 @@ public class ProductServiceImpl implements ProductService{
             map.put("message", "Data is not found");
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Override
+    public TblProductEntity getById(int id){
+        return repository.findById(id).get();
     }
 
 

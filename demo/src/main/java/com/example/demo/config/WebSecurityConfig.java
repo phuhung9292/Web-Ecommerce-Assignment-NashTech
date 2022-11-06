@@ -85,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(POST,"/api/v1/product").hasAuthority("Admin")
                 .antMatchers(PUT,"/api/v1/product/**").hasAuthority("Admin")
                 .antMatchers(PUT,"/api/v1/productitem").hasAuthority("Admin")
-                .antMatchers(POST,"/api/v1/productitem").hasAuthority("Admin")
+                .antMatchers(POST,"/api/v1/productitem/**").hasAuthority("Admin")
                 .antMatchers(GET,"/api/v1/user/users").hasAuthority("Admin")
                 .antMatchers(DELETE,"/api/v1/user/**").hasAuthority("Admin")
                 .antMatchers(GET,"/api/v1/user").hasAuthority("Customer")

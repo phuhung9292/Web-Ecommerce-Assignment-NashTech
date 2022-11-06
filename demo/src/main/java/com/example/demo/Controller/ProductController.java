@@ -39,4 +39,8 @@ public class ProductController {
     public ResponseEntity<?> updateProduct(@RequestBody TblProductEntity entity){
         return service.updateProduct(entity);
     }
+    @GetMapping("/{id}")
+    public TblProductEntity getById(@PathVariable int id){
+        return service.getById(id);
+    }
 }
