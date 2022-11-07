@@ -2,7 +2,6 @@ package com.example.demo.Service.User;
 
 import com.example.demo.Dto.JwtResponse;
 import com.example.demo.Dto.SignInForm;
-import com.example.demo.Entity.TblRoleEntity;
 import com.example.demo.Entity.TblShoppingCartEntity;
 import com.example.demo.Entity.TblUserEntity;
 import com.example.demo.Repository.IRoleRepository;
@@ -101,6 +100,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> login(SignInForm signInForm){
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(signInForm.getEmail(),signInForm.getPassword())
         );
@@ -111,6 +111,19 @@ public class UserServiceImpl implements UserService {
 //        int roleid = userRepository.findById(userPrinciple.getId()).get().getRoleId();
 //        String roleName = roleRepository.findById(roleid).get().getTypeRole();
         return ResponseEntity.ok().body(new JwtResponse(userPrinciple.getId(),token,userPrinciple.getEmail(),userPrinciple.getAuthorities()));
+    }
+
+    @Override
+    public ResponseEntity<?> updateUser(int id){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        TblUserEntity user = userRepository.findById(id).get();
+        if(user.getRoleId()==2){
+            user.setRoleId(1);
+        }else {
+            user.setRoleId(2);
+        }
+        map.put("message","update success");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
 }

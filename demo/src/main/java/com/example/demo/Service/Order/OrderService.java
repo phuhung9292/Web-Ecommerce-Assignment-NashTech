@@ -18,4 +18,6 @@ public interface OrderService {
     List<TblProductItemEntity> getOrderDetail(int orderId);
 
     TblShopOrderEntity getStatusD(int id);
+
+    ResponseEntity<?> updateStatusOrder(int id, int statusId);
 }
