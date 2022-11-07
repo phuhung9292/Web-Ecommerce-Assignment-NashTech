@@ -16,4 +16,6 @@ public interface UserService {
     List<TblUserEntity> findAllByRoleId(boolean check,int id);
 
     ResponseEntity<?> login(SignInForm signInForm);
+
+    ResponseEntity<?> updateUser(int id);
 }

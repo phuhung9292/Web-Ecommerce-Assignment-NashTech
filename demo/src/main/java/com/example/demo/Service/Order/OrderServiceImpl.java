@@ -146,6 +146,16 @@ public class OrderServiceImpl implements OrderService{
     public TblShopOrderEntity getStatusD(int id){
         return orderRepository.findById(id).get();
     }
+
+    @Override
+    public ResponseEntity<?> updateStatusOrder(int id, int statusId){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        TblShopOrderEntity shopOrder = orderRepository.findById(id).get();
+        shopOrder.setStatus(statusId);
+        orderRepository.save(shopOrder);
+        map.put("Status","Success");
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 //    public <S extends TblOrderHistoryEntity> S save(S entity) {
 //        return historyRepository.save(entity);
 //    }

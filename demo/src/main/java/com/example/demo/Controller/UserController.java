@@ -70,6 +70,10 @@ public class UserController {
 //        return ResponseEntity.ok().body(listUser.stream().map(user -> modelMapper.map(user,UserDto.class)).collect(Collectors.toList()));
 //    }
 
+        @PutMapping("/admin/{id}")
+    public ResponseEntity<?> adminUpdateRoleUser(@PathVariable int id){
+        return userService.updateUser(id);
+        }
 
 
 }
