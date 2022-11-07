@@ -1,6 +1,7 @@
 package com.example.demo.Service.VariationOption;
 
 import com.example.demo.Entity.TblVariationOptionEntity;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface VariationOptionService {
     TblVariationOptionEntity findById(int id);
 
     List<TblVariationOptionEntity> findAllByVariationId(int id);
+
+    ResponseEntity<?> findSizeAndColorByProductId(int id);
 }

@@ -14,4 +14,6 @@ public interface IProductItemRepository extends JpaRepository<TblProductItemEnti
 
    @Query(value = "select p.* from tbl_order_history o join tbl_Product_Item p on p.id = o.productItemId where o.orderId=?1", nativeQuery = true)
    List<TblProductItemEntity> findOrderDetail(Integer orderId);
+
+
 }

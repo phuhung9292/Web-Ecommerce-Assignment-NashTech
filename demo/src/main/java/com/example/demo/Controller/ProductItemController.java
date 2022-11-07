@@ -41,4 +41,14 @@ public class ProductItemController {
     public ProductItemDetail getProductItemByProductIdAndSizeIdAndColorId(@PathVariable(name="productId") Integer productId,@PathVariable(name="idvariation1") Integer variationid1,@PathVariable(name="idvariation2") Integer idvariation2){
         return service.findByProductIdAndSizeIdAndColor(productId,variationid1,idvariation2);
     }
+
+    @GetMapping("/admin/{id}")
+    public List<TblProductItemEntity> adminGetProductItem(@PathVariable int id){
+        return service.adminGetProductItemById(id);
+    }
+
+    @GetMapping("/productItemId/{id}")
+    public TblProductItemEntity getProductItemByProductItemId(@PathVariable int id){
+        return service.findById(id);
+    }
 }

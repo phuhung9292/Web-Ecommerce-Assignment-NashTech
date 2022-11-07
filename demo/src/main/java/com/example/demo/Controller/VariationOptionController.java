@@ -42,4 +42,9 @@ public class VariationOptionController {
         return repository.findAllByVariationId(id);
     }
 
+    @GetMapping("/cate/{id}")
+    public ResponseEntity<?> getColorAndSizeByCateId(@PathVariable int id){
+        return repository.findSizeAndColorByProductId(id);
+    }
+
     }
