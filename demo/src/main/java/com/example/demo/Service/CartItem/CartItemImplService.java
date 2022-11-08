@@ -52,7 +52,6 @@ public class CartItemImplService implements CartItemService{
                 map.put("status",1);
                 map.put("message","Add success");
                 return new ResponseEntity<>(map, HttpStatus.OK);
-
         }else {
             if(repository.findTblCartItemEntityByProductItemIdAndCartid(productItem.getId(),cartId)==null){
                 entity.setCartid(cartId);
