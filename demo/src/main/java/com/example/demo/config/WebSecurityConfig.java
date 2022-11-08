@@ -75,6 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/v1/user/signin").permitAll()
 //                .antMatchers(GET,"/api/v1/productItem").permitAll()
                 .antMatchers("/api/v1/cart/**").hasAuthority("Customer")
+                    .antMatchers(POST,"/api/v1/rating").hasAuthority("Customer")
                     .antMatchers(POST,"/api/v1/category/update/**").hasAuthority("Admin")
 
                     .antMatchers(POST,"/api/v1/category/createcategory").hasAuthority("Admin")

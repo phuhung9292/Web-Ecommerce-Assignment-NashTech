@@ -1,5 +1,6 @@
 package com.example.demo.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class TblOrderHistoryEntity {
     @Column(name = "prirce")
     private Double prirce;
     @OneToMany(mappedBy = "tblOrderHistoryByOrderedProductId")
+    @JsonIgnore
     private Collection<TblRatingEntity> tblRatingsById;
     @ManyToOne(optional = false)
     @JoinColumn(name = "productItemId", referencedColumnName = "id", insertable = false, updatable = false)
