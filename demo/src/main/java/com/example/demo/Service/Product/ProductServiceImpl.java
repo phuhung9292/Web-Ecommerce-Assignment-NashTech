@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService{
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         try {
             entity.setIsActive(true);
+
             TblProductEntity product= repository.save(entity);
             map.put("status", 1);
             map.put("message", "update successfully!");
