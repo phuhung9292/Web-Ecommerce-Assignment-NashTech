@@ -3,6 +3,7 @@ package com.example.demo.Service.ProductItem;
 import com.example.demo.Dto.*;
 import com.example.demo.Entity.ManyToManyId.TblProductConfigurationId;
 import com.example.demo.Entity.TblProductConfigurationEntity;
+import com.example.demo.Entity.TblProductEntity;
 import com.example.demo.Entity.TblProductItemEntity;
 import com.example.demo.Entity.TblVariationOptionEntity;
 import com.example.demo.Repository.IProductConfigRepository;
@@ -90,9 +91,14 @@ public class ProductServiceItemImpl implements ProductItemService{
     public ResponseEntity<?> updateProductItem(TblProductItemEntity entity){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
         Date date = Calendar.getInstance().getTime();
-        TblProductItemEntity product= repository.findById(entity.getId()).get();
-
-        try {
+        Optional<TblProductItemEntity> check = repository.findById(entity.getId());
+        if(!check.isPresent()){
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }else
+        {
+            TblProductItemEntity product= repository.findById(entity.getId()).get();
             entity.setCreateDate(product.getCreateDate());
             entity.setUpdateDate(date);
             entity.setProductId(product.getProductId());
@@ -102,11 +108,6 @@ public class ProductServiceItemImpl implements ProductItemService{
 //            ProductItemDto dto = new ;
             map.put("data",repository.save(entity));
             return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception ex) {
-            map.clear();
-            map.put("status", 0);
-            map.put("message", "Data is not found");
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -119,16 +120,22 @@ public class ProductServiceItemImpl implements ProductItemService{
     @Override
     public ResponseEntity<?> findByProductId(Integer integer) {
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-
-        try {
+        List<TblProductItemEntity> product= repository.findAllByProductId(integer);
+        if(product.isEmpty()){
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }else
+         {
 
             map.put("status", 1);
             map.put("message", " successfully!");
-            List<TblProductItemEntity> product= repository.findAllByProductId(integer);
             List<sizeDto> listSize = new ArrayList<>();
             List<colorDto> listColor = new ArrayList<>();
             List<imageDto> listImage = new ArrayList<>();
-            ProductItemDto productDto = modelMapper.map(productRepository.findById(integer).get(),ProductItemDto.class) ;
+
+             TblProductEntity productEntity= productRepository.findById(integer).get();
+            ProductItemDto productDto = modelMapper.map(productEntity,ProductItemDto.class) ;
 //            productDto.setProductImage(pr);
             for (TblProductItemEntity en: product) {
                 Collection<TblProductConfigurationEntity> listconfig = en.getTblProductConfigurationsById();
@@ -161,11 +168,6 @@ public class ProductServiceItemImpl implements ProductItemService{
 
             map.put("data",productDto);
             return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception ex) {
-            map.clear();
-            map.put("status", 0);
-            map.put("message", "Data is not found");
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
     }
 

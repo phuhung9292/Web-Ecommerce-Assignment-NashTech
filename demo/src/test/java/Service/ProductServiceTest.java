@@ -16,10 +16,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,6 +85,33 @@ public class ProductServiceTest {
 
     @Test
     void updateReturnNotFound(){
-        TblProductEntity entity = new TblProductEntity();
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        TblProductEntity entity=new TblProductEntity();
+        map.put("status", 0);
+        map.put("message", "Data is not found");
+        ResponseEntity expected= new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        ResponseEntity actual = productService.updateProduct(entity);
+        Assertions.assertEquals(expected,actual);
     }
+
+    @Test
+    void updateReturnProduct(){
+        Map<String, Object> map = new LinkedHashMap<String, Object>();
+        TblProductEntity entity = new TblProductEntity();
+        map.put("status", 1);
+        map.put("message", "update successfully!");
+
+
+        Optional<TblProductEntity> entityOptional = Optional.of(entity);
+        when(productRepository.findById(entity.getId())).thenReturn(entityOptional);
+        when(productRepository.save(entity)).thenReturn(entity);
+        ProductDto dto= modelMapper.map(entity,ProductDto.class);
+        map.put("data",dto);
+        ResponseEntity expected= new ResponseEntity<>(map, HttpStatus.OK);
+        ResponseEntity actual= productService.updateProduct(entity);
+        Assertions.assertEquals(expected,actual);
+
+    }
+
+
 }

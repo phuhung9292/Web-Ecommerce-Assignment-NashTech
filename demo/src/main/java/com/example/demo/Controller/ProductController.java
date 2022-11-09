@@ -25,6 +25,10 @@ public class ProductController {
     public ResponseEntity<TblProductEntity> createProduct(@RequestBody TblProductEntity entity){
         return service.save(entity);
     }
+    @GetMapping("/getAll")
+    public List<TblProductEntity> getAllSellProduct(){
+        return service.getAllProductSell();
+    }
     @GetMapping("/search")
     public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam String name){
         return service.findByName(name);

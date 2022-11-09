@@ -18,4 +18,6 @@ public interface ProductService {
     ResponseEntity<?> updateProduct(TblProductEntity entity);
 
     TblProductEntity getById(int id);
+
+    List<TblProductEntity> getAllProductSell();
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service @AllArgsConstructor
@@ -41,21 +42,21 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ResponseEntity<?> updateProduct(TblProductEntity entity){
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        try {
+        Optional<TblProductEntity> find = repository.findById(entity.getId());
+        if(!find.isPresent()){
+            map.clear();
+            map.put("status", 0);
+            map.put("message", "Data is not found");
+            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+        }
             entity.setIsActive(true);
-
             TblProductEntity product= repository.save(entity);
             map.put("status", 1);
             map.put("message", "update successfully!");
             ProductDto dto = modelMapper.map(product,ProductDto.class);
             map.put("data",dto);
             return new ResponseEntity<>(map, HttpStatus.OK);
-        } catch (Exception ex) {
-            map.clear();
-            map.put("status", 0);
-            map.put("message", "Data is not found");
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
-        }
+
     }
 
     @Override
@@ -63,5 +64,10 @@ public class ProductServiceImpl implements ProductService{
         return repository.findById(id).get();
     }
 
+
+    @Override
+    public List<TblProductEntity> getAllProductSell(){
+        return repository.findTopSellProduct();
+    }
 
 }
